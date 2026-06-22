@@ -1,0 +1,138 @@
+{
+  "function_behavior_model": {
+    "trigger_sources": [
+      "驾驶员拉起EPB开关"
+    ],
+    "allowed_conditions": [
+      "车辆静止（车速≤3km/h）",
+      "ON/OK挡电源挡位，或OFF挡可唤醒执行单次操作",
+      "EPB处于Released状态"
+    ],
+    "actions": [
+      "执行驻车制动拉起"
+    ],
+    "target_states": [
+      "从Released状态转变为Applied状态"
+    ],
+    "physical_effects": [
+      "制动力/夹紧力"
+    ],
+    "timing_relations": [
+      "拉起响应时间",
+      "休眠唤醒后执行时间"
+    ],
+    "opposite_directions_or_states": [
+      "拉起-释放",
+      "Applied-Released"
+    ],
+    "feedbacks": [
+      "仪表显示文字提示"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "EPB_fc01",
+    "子功能": "静态开关拉起",
+    "功能丧失": "MF101 驻车制动无法拉起",
+    "过大": "MF102 制动力过大",
+    "过早": "N/A",
+    "过小": "MF103 制动力不足",
+    "过晚": "MF104 拉起响应延迟",
+    "非预期激活": "MF105 驻车制动非预期拉起",
+    "卡滞": "MF106 卡滞在释放状态无法拉起",
+    "方向错误": "N/A"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "功能主要动作是执行驻车制动拉起，存在完全不提供该功能的可能性",
+      "candidate_faults": [
+        "MF101 驻车制动无法拉起"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量维度包含制动力/夹紧力，存在超过预期的可能性",
+      "candidate_faults": [
+        "MF102 制动力过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能是响应离散开关请求，没有自动触发时机或阶段顺序",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量维度包含制动力/夹紧力，存在不足的可能性",
+      "candidate_faults": [
+        "MF103 制动力不足"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时间关系维度包含拉起响应时间，存在延迟的可能性",
+      "candidate_faults": [
+        "MF104 拉起响应延迟"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "目标状态是Applied，存在无请求或不满足条件时进入该状态的可能性",
+      "candidate_faults": [
+        "MF105 驻车制动非预期拉起"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "目标状态是从Released转变为Applied，存在起始状态卡滞导致无法转变的可能性",
+      "candidate_faults": [
+        "MF106 卡滞在释放状态无法拉起"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "no",
+      "basis_in_behavior_model": "当前子功能是单向状态转换（从Released到Applied），请求拉起却执行释放属于相反功能的偏离，不属于当前子功能的行为模型",
+      "candidate_faults": []
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "MF101 驻车制动无法拉起",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF102 制动力过大",
+      "guideword": "过大",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF103 制动力不足",
+      "guideword": "过小",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF104 拉起响应延迟",
+      "guideword": "过晚",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF105 驻车制动非预期拉起",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF106 卡滞在释放状态无法拉起",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    }
+  ]
+}

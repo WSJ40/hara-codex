@@ -1,0 +1,30 @@
+Looking at this HARA analysis scenario for low beam headlight malfunction:
+
+**Scenario Summary:**
+- Hazard: Low beam (近光灯) unexpectedly turns off (MF105)
+- Context: Daytime urban expressway tunnel, 60-90 km/h, close to vehicle ahead
+- Harm: Rear-end collision due to insufficient vision after sudden light loss
+
+## SEC Analysis
+
+**Severity S3:**
+- Speed 60-90 km/h exceeds the ≥40 km/h threshold for life-threatening rear-end collisions
+- Tunnel collision leaves no escape route, increasing force
+- Multiple occupants at risk (both vehicles)
+
+**Exposure E2:**
+- Urban expressway with tunnel is a common driving scenario, but:
+  - Not every urban commute involves tunnels
+  - Daytime tunnel entry is frequent but not "almost every drive"
+  - 0.4-4 hours/year range seems too conservative; tunnels in urban areas are weekly or monthly occurrences for many commuters
+  - This is likely E3 (medium probability, 4-40 hours/year) - monthly occurrence for typical urban driver
+
+**Controllability C3:**
+- Sudden vision loss in already low-light tunnel environment
+- Reaction time reduced by proximity to vehicle ahead ("较近")
+- Driver has 2-4 seconds typically to detect and react to decelerating front vehicle
+- Tunnel environment means no escape route, limited maneuvering space
+- Vision loss is unexpected and counterintuitive
+
+## ASIL Rating
+S3 (3) + E3 (2) + C3 (3) = 8 → **ASIL B**

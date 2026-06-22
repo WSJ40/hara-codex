@@ -1,0 +1,28 @@
+{
+  "project": {
+    "system_name": "EPB",
+    "source_file": "EPB.docx",
+    "item_definition": "EPB系统（电子驻车制动系统）用于通过电子开关控制车辆驻车制动，替代传统手刹。系统包括EPB开关、控制单元、执行电机及驻车制动器。主要功能为静态开关拉起：驾驶员通过拉起EPB开关实现车辆驻车。工作电源为ON/OK挡；EPB休眠后OFF挡也能唤醒执行。系统与车速信号、网络状态、仪表交互。",
+    "source_functions": [
+      "静态开关拉起"
+    ],
+    "assumptions": [
+      "车速≤3km/h判定为车辆静止",
+      "EPB休眠指网络休眠状态下EPB处于低功耗模式",
+      "EPB状态包括Released（释放）、Applied（拉起）、Releasing（释放中）、Applying（拉起中）",
+      "仪表显示提示为二级信息，非一级安全相关",
+      "系统仅与车速信号、网络状态、EPB开关信号交互"
+    ]
+  },
+  "function_slices": [
+    {
+      "name": "静态开关拉起",
+      "normal_behavior": "车辆静止（车速≤3km/h）且EPB处于Released状态，拉起EPB开关，执行驻车制动；EPB已处于Applied状态时，拉起开关不响应，仪表显示“电子驻车已启动”；网络休眠状态下拉起开关可唤醒EPB并执行拉起；EPB处于Releasing状态时拉起开关不执行拉起，需重新操作",
+      "operating_domain": "ON/OK电源挡位；车辆静止状态（≤3km/h）；网络唤醒或休眠状态；EPB Released、Applied、Releasing状态",
+      "source_evidence": [
+        "1.2.1 工作电源挡位",
+        "1.2.2.1 近光灯亮灭逻辑（1）（2）（3）（4）"
+      ]
+    }
+  ]
+}

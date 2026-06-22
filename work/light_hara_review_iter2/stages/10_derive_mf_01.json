@@ -1,0 +1,183 @@
+{
+  "function_behavior_model": {
+    "fault_object": "近光灯",
+    "trigger_sources": [
+      "驾驶员通过组合开关灯光旋钮选择近光灯档",
+      "驾驶员选择AUTO档（满足自动灯光条件时）",
+      "系统上电/自复位时的状态记忆逻辑"
+    ],
+    "allowed_conditions": [
+      "任意电源档位（ON/OFF）",
+      "非防盗设定/防盗状态",
+      "组合开关报文正常或掉线处理逻辑"
+    ],
+    "actions": [
+      "点亮（输出驱动，发送报文0x1）",
+      "熄灭（断开驱动，发送报文0x2）"
+    ],
+    "target_states": [
+      "点亮状态",
+      "熄灭状态"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "点亮/熄灭响应时间",
+      "掉线5s后的状态保持逻辑",
+      "上电默认状态",
+      "自复位状态保持"
+    ],
+    "opposite_directions_or_states": [
+      "点亮-熄灭"
+    ],
+    "feedbacks": [
+      "美版车仪表灯光总开关指示灯同步亮灭",
+      "夜间行车语音提示（灯光关闭+低光照+车速≥5km/h时）",
+      "近光灯故障状态报文"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "近光灯",
+    "功能丧失": "近光灯无法点亮；近光灯无法熄灭",
+    "过大": "近光灯亮度过大",
+    "过早": "",
+    "过小": "近光灯亮度过小",
+    "过晚": "近光灯点亮响应过晚；近光灯熄灭响应过晚",
+    "非预期激活": "近光灯非预期点亮；近光灯非预期熄灭",
+    "卡滞": "近光灯卡滞在熄灭状态；近光灯卡滞在点亮状态",
+    "方向错误": "近光灯请求点亮却熄灭；近光灯请求熄灭却点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "功能为双向状态控制，同时负责点亮和熄灭两个required control actions。从actions和target_states维度，存在应点亮时无法点亮、应熄灭时无法熄灭的偏离。",
+      "candidate_faults": [
+        "近光灯无法点亮",
+        "近光灯无法熄灭"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "从physical_effects维度，近光灯作为外部照明功能，最终车辆级输出为亮度/照度，存在超过预期的偏离。即使源文档只描述驱动开/关，照明系统天然包含亮度维度。",
+      "candidate_faults": [
+        "近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "从timing_relations维度，近光灯主要响应驾驶员即时请求（旋钮操作），没有独立于请求的预期触发时刻或自动阶段顺序。AUTO档自动判断属于上游自动灯光逻辑，不是当前近光灯功能自身的自动触发时机。",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "从physical_effects维度，与过大成对审查。近光灯作为外部照明功能，最终车辆级输出为亮度/照度，存在不足的偏离。",
+      "candidate_faults": [
+        "近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "从timing_relations维度，存在请求或触发条件成立后功能响应延迟的偏离。点亮和熄灭两个动作均可能发生响应延迟。",
+      "candidate_faults": [
+        "近光灯点亮响应过晚",
+        "近光灯熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "从opposite_directions_or_states和allowed_conditions维度，存在没有请求、不满足允许条件或应保持当前状态时发生状态改变的偏离。双向状态功能需考虑两个方向的非预期状态改变。",
+      "candidate_faults": [
+        "近光灯非预期点亮",
+        "近光灯非预期熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "从target_states和opposite_directions_or_states维度，存在功能状态保持在某一状态无法按请求改变的偏离。点亮和熄灭两个状态均可能卡滞。",
+      "candidate_faults": [
+        "近光灯卡滞在熄灭状态",
+        "近光灯卡滞在点亮状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "从opposite_directions_or_states维度，存在相反方向/状态。有请求A却执行相反动作B的偏离：请求点亮却执行熄灭、请求熄灭却执行点亮。",
+      "candidate_faults": [
+        "近光灯请求点亮却熄灭",
+        "近光灯请求熄灭却点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "MF101-1 近光灯无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 夜间或低光照条件下无法点亮将导致驾驶员视野不足，可能无法及时发现行人、障碍物或前车"
+    },
+    {
+      "fault": "MF101-2 近光灯无法熄灭",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 近光灯持续点亮可能影响对向来车或前车驾驶员判断，或违反法规要求"
+    },
+    {
+      "fault": "MF101-3 近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes - 可能使其他道路使用者眩目或误判本车位置/距离"
+    },
+    {
+      "fault": "MF101-4 近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes - 导致驾驶员视野降低，夜间行驶安全性下降"
+    },
+    {
+      "fault": "MF101-5 近光灯点亮响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 低光照条件下突然失去必要视野且无足够反应时间"
+    },
+    {
+      "fault": "MF101-6 近光灯熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "low - 熄灭延迟通常安全影响较弱，除非在会车或特定场景"
+    },
+    {
+      "fault": "MF101-7 近光灯非预期点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间、会车或复杂交通中可能影响其他道路使用者判断"
+    },
+    {
+      "fault": "MF101-8 近光灯非预期熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间/隧道中非预期熄灭导致驾驶员短时间内视野突然下降"
+    },
+    {
+      "fault": "MF101-9 近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 无法点亮导致夜间视野丧失"
+    },
+    {
+      "fault": "MF101-10 近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 无法熄灭可能影响其他道路使用者"
+    },
+    {
+      "fault": "MF101-11 近光灯请求点亮却熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes - 夜间请求点亮时实际熄灭，驾驶员容易发现但短期内视野不足"
+    },
+    {
+      "fault": "MF101-12 近光灯请求熄灭却点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "low - 请求熄灭说明当前通常不需要近光灯，驾驶员容易发现并再次操作"
+    }
+  ]
+}

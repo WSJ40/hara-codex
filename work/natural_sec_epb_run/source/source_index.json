@@ -1,0 +1,40 @@
+{
+  "source": "EPB.docx",
+  "sections": [
+    {
+      "title": "EPB系统",
+      "start_line": 3,
+      "end_line": 4
+    },
+    {
+      "title": "1.1 系统功能清单",
+      "start_line": 5,
+      "end_line": 8
+    },
+    {
+      "title": "1.2 静态开关拉起功能",
+      "start_line": 9,
+      "end_line": 10
+    },
+    {
+      "title": "1.2.1 工作电源挡位",
+      "start_line": 11,
+      "end_line": 14
+    },
+    {
+      "title": "1.2.2 功能逻辑",
+      "start_line": 15,
+      "end_line": 16
+    },
+    {
+      "title": "1.2.2.1 近光灯亮灭逻辑",
+      "start_line": 17,
+      "end_line": 26
+    },
+    {
+      "title": "表格 1",
+      "start_line": 27,
+      "end_line": 30
+    }
+  ]
+}

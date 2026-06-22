@@ -1,0 +1,181 @@
+{
+  "function_behavior_model": {
+    "fault_object": "近光灯",
+    "trigger_sources": [
+      "驾驶员请求：组合开关近光灯档位信号（0x133报文）",
+      "自动条件：AUTO档自动灯光逻辑判断需要点亮/熄灭"
+    ],
+    "allowed_conditions": [
+      "任意电源档位",
+      "非防盗设定状态/防盗状态时才处理开关变化",
+      "掉线时的默认逻辑保持"
+    ],
+    "actions": [
+      "点亮：输出近光灯驱动使能",
+      "熄灭：断开近光灯驱动使能"
+    ],
+    "target_states": [
+      "点亮状态",
+      "熄灭状态"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "点亮/熄灭响应时间",
+      "状态保持时间（常电记忆）",
+      "掉线判定（连续5s未接收报文）"
+    ],
+    "opposite_directions_or_states": [
+      "点亮↔熄灭"
+    ],
+    "feedbacks": [
+      "美版车灯光总开关指示灯",
+      "夜间行车语音提示",
+      "近光灯故障状态报文"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "近光灯",
+    "功能丧失": "近光灯无法点亮；近光灯无法熄灭",
+    "过大": "近光灯亮度过大",
+    "过早": "",
+    "过小": "近光灯亮度过小",
+    "过晚": "近光灯点亮响应过晚；近光灯熄灭响应过晚",
+    "非预期激活": "近光灯非预期点亮；近光灯非预期熄灭",
+    "卡滞": "近光灯卡滞在熄灭状态；近光灯卡滞在点亮状态",
+    "方向错误": "近光灯请求点亮却熄灭；近光灯请求熄灭却点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "当前功能负责点亮和熄灭两个required control actions，从双向状态控制的角度，应提供点亮时未提供和应熄灭时未提供都是功能丧失",
+      "candidate_faults": [
+        "近光灯无法点亮",
+        "近光灯无法熄灭"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "外部照明的车辆级输出天然包含亮度/照度维度，即使需求只描述驱动开/关也要审查作用量偏离",
+      "candidate_faults": [
+        "近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "文档明确AUTO档自动灯光逻辑由其他模块提供，当前功能只负责接收判断结果后执行驱动，自身没有独立的自动触发时机或阶段顺序",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "与过大成对审查，外部照明存在亮度/照度输出就可能存在输出不足/效果不足的中间状态",
+      "candidate_faults": [
+        "近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "从触发源到驱动输出存在响应时间，点亮和熄灭两个方向都可能存在响应延迟",
+      "candidate_faults": [
+        "近光灯点亮响应过晚",
+        "近光灯熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "双向状态控制功能要考虑两个方向的状态改变：不该点亮时点亮和不该熄灭时熄灭",
+      "candidate_faults": [
+        "近光灯非预期点亮",
+        "近光灯非预期熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "近光灯存在点亮和熄灭两个状态，可能卡滞在任一状态无法改变",
+      "candidate_faults": [
+        "近光灯卡滞在熄灭状态",
+        "近光灯卡滞在点亮状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在点亮和熄灭两个相反方向，请求点亮却执行熄灭或请求熄灭却执行点亮属于方向错误",
+      "candidate_faults": [
+        "近光灯请求点亮却熄灭",
+        "近光灯请求熄灭却点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "近光灯无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes + 夜间/隧道环境驾驶员视野不足"
+    },
+    {
+      "fault": "近光灯无法熄灭",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes + 可能使对向来车眩目或误判"
+    },
+    {
+      "fault": "近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes + 可能使其他道路使用者眩目或误判"
+    },
+    {
+      "fault": "近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes + 驾驶员视野降低"
+    },
+    {
+      "fault": "近光灯点亮响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes + 短时间内视野不足"
+    },
+    {
+      "fault": "近光灯熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "no + 熄灭延迟通常不造成直接伤害"
+    },
+    {
+      "fault": "近光灯非预期点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "no + 白天点亮通常安全影响较弱"
+    },
+    {
+      "fault": "近光灯非预期熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes + 夜间/隧道中视野突然下降"
+    },
+    {
+      "fault": "近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes + 无法点亮导致驾驶员视野不足"
+    },
+    {
+      "fault": "近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes + 无法熄灭可能使对向车辆眩目"
+    },
+    {
+      "fault": "近光灯请求点亮却熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes + 请求点亮时实际熄灭，夜间视野不足"
+    },
+    {
+      "fault": "近光灯请求熄灭却点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "yes + 请求熄灭时实际点亮，可能使其他道路使用者误判"
+    }
+  ]
+}

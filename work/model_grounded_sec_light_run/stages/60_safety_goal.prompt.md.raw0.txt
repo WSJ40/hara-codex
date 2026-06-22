@@ -1,0 +1,8 @@
+I've read the safety goal stage prompt. This is a comprehensive HARA analysis prompt that defines the output contract for generating safety goals from malfunction analysis and hazard assessment, specifically for automotive functional safety (ISO 26262).
+
+What would you like me to do with this prompt? For example:
+- Review or improve the prompt structure
+- Help implement the `hara_tool.py export` script that processes this output
+- Generate example outputs based on this schema
+- Create validation logic for the JSON structure
+- Something else?

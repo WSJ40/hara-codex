@@ -1,0 +1,16 @@
+Looking at the scenario for MF107 (low beam headlight requested ON but turns OFF):
+
+- Speed: 60-90 km/h on highway curve, collision with obstacle at medium-high speed → S2 (serious to life-threatening injuries, survival possible)
+- Night highway driving from service area → E3 (moderate probability, monthly occurrence for typical drivers)
+- Driver requested lights ON but system executed OFF; driver may notice discrepancy faster than unexpected shutdown, but at 60-90 km/h on curve, reaction time limited to ~1-5 seconds with restricted evasion space → C2 (partial drivers can avoid through timely reaction)
+
+```json
+{
+  "E-解释": "夜间从服务区驶入高速公路属于月度级暴露场景，多数驾驶员一年会遇到数次类似操作，符合E3中等概率范围",
+  "暴露频率'E'": "E3",
+  "可能的后果('S'的理由)": "高速公路弯道以60-90 km/h速度撞击固定障碍物，可导致严重骨折、内脏损伤、严重头部创伤等危及生命但通常仍有生存可能的伤害",
+  "Severity 'S'": "S2",
+  "C-解释": "驾驶员主动请求近光灯点亮却得到熄灭结果，相比非预期熄灭更易发现异常；但60-90 km/h高速、弯道、夜间低照度条件下，发现视野不足时反应时间约1-5秒，可用避险空间有限，部分驾驶员可通过制动或轻微转向避免伤害",
+  "控制能力 'C'": "C2"
+}
+```

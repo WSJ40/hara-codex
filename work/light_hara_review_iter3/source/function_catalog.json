@@ -1,0 +1,10 @@
+{
+  "source": "light.docx",
+  "functions": [
+    {
+      "name": "近光灯",
+      "source": "表格 1",
+      "row": 2
+    }
+  ]
+}

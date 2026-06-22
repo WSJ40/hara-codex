@@ -1,0 +1,168 @@
+{
+  "function_behavior_model": {
+    "fault_object": "近光灯",
+    "trigger_sources": [
+      "组合开关灯光档位信号（近光灯档0x4、AUTO档、OFF档0x1/0x3）",
+      "自动灯光逻辑判断结果"
+    ],
+    "allowed_conditions": [
+      "ON档电",
+      "非防盗设定/防盗状态"
+    ],
+    "actions": [
+      "点亮：输出近光灯驱动并发送报文状态0x1",
+      "熄灭：断开近光灯驱动并发送报文状态0x2"
+    ],
+    "target_states": [
+      "点亮状态",
+      "熄灭状态"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "点亮/熄灭响应时间",
+      "掉线5s后的状态保持/硬线判断",
+      "自复位后保持复位前状态"
+    ],
+    "opposite_directions_or_states": [
+      "点亮-熄灭"
+    ],
+    "feedbacks": [
+      "美版车仪表灯光总开关指示灯同步",
+      "近光灯故障状态报文",
+      "夜间行车语音提示"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "近光灯",
+    "功能丧失": "近光灯无法点亮",
+    "过大": "近光灯亮度过大",
+    "过早": "",
+    "过小": "近光灯亮度过小",
+    "过晚": "近光灯点亮/熄灭响应过晚",
+    "非预期激活": "近光灯非预期点亮；近光灯非预期熄灭",
+    "卡滞": "近光灯卡滞在点亮状态；近光灯卡滞在熄灭状态",
+    "方向错误": "近光灯请求点亮却熄灭；近光灯请求熄灭却点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "执行动作为点亮和熄灭，应提供主要功能时可能完全不提供",
+      "candidate_faults": [
+        "近光灯无法点亮"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量为亮度/照度，照明功能的车辆级输出具有强度维度",
+      "candidate_faults": [
+        "近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能为驾驶员请求或自动灯光逻辑触发后的执行，自身无独立自动时序；自动灯光判断过早属于上游逻辑故障",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量为亮度/照度，存在输出不足这一偏离维度",
+      "candidate_faults": [
+        "近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时间关系包含点亮/熄灭响应时间，请求或条件成立后可能响应延迟",
+      "candidate_faults": [
+        "近光灯点亮/熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在点亮和熄灭两个相反方向，可能在无请求、不满足条件或应保持当前状态时发生状态改变",
+      "candidate_faults": [
+        "近光灯非预期点亮",
+        "近光灯非预期熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在点亮和熄灭两个目标状态，状态可能无法按请求改变",
+      "candidate_faults": [
+        "近光灯卡滞在点亮状态",
+        "近光灯卡滞在熄灭状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在点亮-熄灭相反方向，有请求A但可能执行相反动作B",
+      "candidate_faults": [
+        "近光灯请求点亮却熄灭",
+        "近光灯请求熄灭却点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "MF101 近光灯无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF102 近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF103 近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF104 近光灯点亮/熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF105 近光灯非预期点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF106 近光灯非预期熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF107 近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF108 近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF109 近光灯请求点亮却熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "MF110 近光灯请求熄灭却点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "yes"
+    }
+  ]
+}

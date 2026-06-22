@@ -1,0 +1,170 @@
+{
+  "function_behavior_model": {
+    "fault_object": "转向信号灯",
+    "trigger_sources": [
+      "驾驶员通过转向灯开关请求（左区域控制器发送0x38A报文）"
+    ],
+    "allowed_conditions": [
+      "ON档电下"
+    ],
+    "actions": [
+      "左前转向灯持续闪烁（正常频率）",
+      "右前转向灯持续闪烁（正常频率）",
+      "左前转向灯持续闪烁（故障快闪）",
+      "右前转向灯持续闪烁（故障快闪）"
+    ],
+    "target_states": [
+      "开启（闪烁状态）",
+      "关闭"
+    ],
+    "physical_effects": [
+      "闪烁频率"
+    ],
+    "timing_relations": [
+      "响应时间",
+      "掉线5s判断后保持上一状态最多10s"
+    ],
+    "opposite_directions_or_states": [
+      "左转-右转",
+      "开启-关闭"
+    ],
+    "feedbacks": []
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "转向信号灯功能",
+    "功能丧失": "转向信号灯无法闪烁开启；转向信号灯无法熄灭",
+    "过大": "转向信号灯闪烁频率过大",
+    "过早": "",
+    "过小": "转向信号灯闪烁频率过小",
+    "过晚": "转向信号灯闪烁开启响应过晚；转向信号灯熄灭响应过晚",
+    "非预期激活": "转向信号灯非预期闪烁开启",
+    "卡滞": "转向信号灯卡滞在关闭状态；转向信号灯卡滞在开启状态",
+    "方向错误": "转向信号灯请求左转却右转；转向信号灯请求右转却左转"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "actions包含左/右转向灯正常闪烁和故障快闪，target_states包含开启和关闭，当前功能负责提供这两个required control actions",
+      "candidate_faults": [
+        "转向信号灯无法闪烁开启",
+        "转向信号灯无法熄灭"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "physical_effects包含闪烁频率，正常闪烁频率与故障快闪频率是不同输出强度，存在频率超过预期的偏离维度",
+      "candidate_faults": [
+        "转向信号灯闪烁频率过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能基于驾驶员主动离散请求，没有自动触发时机或阶段顺序，无请求前的过早维度",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "physical_effects包含闪烁频率，与过大成对审查，存在频率不足的偏离维度",
+      "candidate_faults": [
+        "转向信号灯闪烁频率过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "timing_relations包含响应时间，请求或条件成立后可能存在响应延迟",
+      "candidate_faults": [
+        "转向信号灯闪烁开启响应过晚",
+        "转向信号灯熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "target_states包含开启和关闭，存在无请求或不满足条件时状态改变为开启的偏离",
+      "candidate_faults": [
+        "转向信号灯非预期闪烁开启"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "target_states包含开启和关闭，存在状态无法按请求改变的偏离",
+      "candidate_faults": [
+        "转向信号灯卡滞在关闭状态",
+        "转向信号灯卡滞在开启状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "opposite_directions_or_states包含左转-右转，存在请求左转却执行右转、请求右转却执行左转的偏离",
+      "candidate_faults": [
+        "转向信号灯请求左转却右转",
+        "转向信号灯请求右转却左转"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "转向信号灯无法闪烁开启",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯无法熄灭",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯闪烁频率过大",
+      "guideword": "过大",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯闪烁频率过小",
+      "guideword": "过小",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯闪烁开启响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯非预期闪烁开启",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯卡滞在关闭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯卡滞在开启状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯请求左转却右转",
+      "guideword": "方向错误",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "转向信号灯请求右转却左转",
+      "guideword": "方向错误",
+      "safety_relevance": "yes"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "function_behavior_model": {
+    "trigger_sources": [
+      "驾驶员拉起EPB开关"
+    ],
+    "allowed_conditions": [
+      "车速≤3km/h",
+      "ON/OK挡位或整车休眠时通过开关唤醒",
+      "EPB未处于释放中（Releasing）状态"
+    ],
+    "actions": [
+      "施加后轮制动力",
+      "唤醒EPB系统并执行拉起"
+    ],
+    "target_states": [
+      "从Released状态进入Applied（已拉起）状态"
+    ],
+    "physical_effects": [
+      "后轮制动力/夹紧力"
+    ],
+    "timing_relations": [
+      "制动力建立响应时间",
+      "休眠唤醒后执行拉起的时序",
+      "释放中状态下需等待释放完成后再拉起的阶段顺序"
+    ],
+    "opposite_directions_or_states": [
+      "拉起-释放",
+      "Released-Applied状态"
+    ],
+    "feedbacks": [
+      "仪表显示文字提示'电子驻车已启动'"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "静态开关拉起",
+    "功能丧失": "驻车时EPB无法拉起",
+    "过大": "拉起时制动力过大",
+    "过早": "",
+    "过小": "拉起时制动力不足",
+    "过晚": "拉起时制动力建立过晚",
+    "非预期激活": "未请求拉起时EPB进入已拉起状态；行驶中EPB非预期拉起",
+    "卡滞": "卡滞在释放状态导致无法拉起；卡滞在已拉起状态",
+    "方向错误": "请求拉起却执行释放"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "功能应提供'施加后轮制动力进入已拉起状态'，存在完全不提供的可能性",
+      "candidate_faults": [
+        "驻车时EPB无法拉起"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量包含'后轮制动力/夹紧力'，存在超过预期的可能性",
+      "candidate_faults": [
+        "拉起时制动力过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "静态开关拉起是驾驶员离散请求，不存在独立的自动触发时序或阶段顺序，无'过早'维度",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量包含'后轮制动力/夹紧力'，存在不足的可能性",
+      "candidate_faults": [
+        "拉起时制动力不足"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时序关系包含'制动力建立响应时间'，存在延迟的可能性",
+      "candidate_faults": [
+        "拉起时制动力建立过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "目标状态包含'Released-Applied状态'的相反方向，存在未请求时状态改变的可能性",
+      "candidate_faults": [
+        "未请求拉起时EPB进入已拉起状态",
+        "行驶中EPB非预期拉起"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "状态维度包含'Released/Applied状态'，存在状态无法改变的可能性",
+      "candidate_faults": [
+        "卡滞在释放状态导致无法拉起",
+        "卡滞在已拉起状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "相反方向包含'拉起-释放'，存在请求拉起却执行相反动作的可能性",
+      "candidate_faults": [
+        "请求拉起却执行释放"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "驻车时EPB无法拉起",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "拉起时制动力过大",
+      "guideword": "过大",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "拉起时制动力不足",
+      "guideword": "过小",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "拉起时制动力建立过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "未请求拉起时EPB进入已拉起状态",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "行驶中EPB非预期拉起",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "卡滞在释放状态导致无法拉起",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "卡滞在已拉起状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes"
+    },
+    {
+      "fault": "请求拉起却执行释放",
+      "guideword": "方向错误",
+      "safety_relevance": "yes"
+    }
+  ]
+}

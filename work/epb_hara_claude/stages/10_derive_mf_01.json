@@ -1,0 +1,93 @@
+{
+  "derive_mf_row": {
+    "No.": "MF100",
+    "子功能": "静态开关拉起",
+    "功能丧失": "应拉起时完全不拉起或拉起后无法保持驻车状态",
+    "过大": "夹紧力超过预期导致后轮抱死或无法释放",
+    "过早": "不适用",
+    "过小": "夹紧力不足不足以抵抗坡度/蠕行/外力",
+    "过晚": "拉起响应延迟导致车辆移动",
+    "非预期激活": "未拉起开关或开关未按下时EPB执行拉起",
+    "卡滞": "状态卡滞于Applying/Released或开关卡滞",
+    "方向错误": "不适用"
+  },
+  "split_faults": [
+    {
+      "fault": "MF101 请求拉起时EPB完全不拉起",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes。车辆静止状态下请求拉起失败，车辆可能因坡度、驱动蠕行或外力发生非预期纵向移动，存在撞击风险",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF101 拉起后无法保持驻车状态",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes。驻车制动力逐渐减弱或完全丧失，车辆在驾驶员离车后可能发生溜坡",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF102 夹紧力过大",
+      "guideword": "过大",
+      "safety_relevance": "yes。夹紧力超过设计限值可能导致执行器损坏、后轮抱死或无法正常释放，影响车辆行驶安全",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF103 夹紧力不足",
+      "guideword": "过小",
+      "safety_relevance": "yes。制动力不足以抵抗坡道重力分量或驱动扭矩，车辆可能缓慢滑动或溜坡",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF104 拉起响应延迟",
+      "guideword": "过晚",
+      "safety_relevance": "yes。响应时间过长可能导致车辆在拉起生效前已发生移动",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF105 未请求时非预期拉起",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes。车辆静止或低速时非预期拉起引起突然减速，可能导致后车追尾或驾驶员失控",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF106 EPB状态卡滞",
+      "guideword": "卡滞",
+      "safety_relevance": "yes。卡滞于Applying导致无法驻车；卡滞于Applied导致无法释放；卡滞于Released导致无法拉起",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF101 网络休眠唤醒失败",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes。休眠状态下拉起开关无法唤醒EPB，丧失驻车能力",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF101 仪表驻车状态指示错误",
+      "guideword": "功能丧失",
+      "safety_relevance": "no。二级信息提示错误，驾驶员可通过其他方式确认驻车状态，不直接导致人身伤害",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF101 Releasing状态下拉起不执行",
+      "guideword": "功能丧失",
+      "safety_relevance": "no。设计逻辑要求，需重新操作，驾驶员可再次拉起，不构成安全风险",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    },
+    {
+      "fault": "MF101 Applied状态下拉起不响应",
+      "guideword": "功能丧失",
+      "safety_relevance": "no。已处于驻车状态，不执行拉起为预期逻辑，仪表提示正常",
+      "function_name": "静态开关拉起",
+      "function_index": 1
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "source": "light1.docx",
+  "sections": [
+    {
+      "title": "前车身控制器之前大灯系统",
+      "start_line": 3,
+      "end_line": 4
+    },
+    {
+      "title": "1.1 系统功能清单",
+      "start_line": 5,
+      "end_line": 8
+    },
+    {
+      "title": "1.2 转向信号灯功能",
+      "start_line": 9,
+      "end_line": 18
+    },
+    {
+      "title": "1 其他值→0x2 左前转向灯持续闪烁（正常频率）。",
+      "start_line": 19,
+      "end_line": 20
+    },
+    {
+      "title": "2 其他值→0x3 右前转向灯持续闪烁（正常频率）。",
+      "start_line": 21,
+      "end_line": 22
+    },
+    {
+      "title": "3 其他值→0x4 左前转向灯持续闪烁（故障快闪）。",
+      "start_line": 23,
+      "end_line": 24
+    },
+    {
+      "title": "4 其他值→0x5 右前转向灯持续闪烁（故障快闪）。",
+      "start_line": 25,
+      "end_line": 34
+    },
+    {
+      "title": "表格 1",
+      "start_line": 35,
+      "end_line": 38
+    }
+  ]
+}

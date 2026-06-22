@@ -1,0 +1,178 @@
+{
+  "function_behavior_model": {
+    "fault_object": "近光灯",
+    "trigger_sources": [
+      "组合开关灯光旋钮近光档",
+      "AUTO档自动判断"
+    ],
+    "allowed_conditions": [
+      "非防盗状态",
+      "ON档电"
+    ],
+    "actions": [
+      "输出近光灯驱动",
+      "发送近光灯状态CAN报文"
+    ],
+    "target_states": [
+      "点亮",
+      "熄灭"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "实时响应开关信号",
+      "掉线5s后保持上一状态"
+    ],
+    "opposite_directions_or_states": [
+      "点亮-熄灭"
+    ],
+    "feedbacks": [
+      "前方照明状态（驾驶员视觉）",
+      "灯光总开关指示灯（美版车）"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "近光灯",
+    "功能丧失": "近光灯无法点亮；近光灯无法熄灭",
+    "过大": "近光灯亮度过大",
+    "过早": "",
+    "过小": "近光灯亮度过小",
+    "过晚": "近光灯点亮响应过晚；近光灯熄灭响应过晚",
+    "非预期激活": "近光灯非预期点亮；近光灯非预期熄灭",
+    "卡滞": "近光灯卡滞在熄灭状态；近光灯卡滞在点亮状态",
+    "方向错误": "近光灯请求点亮却熄灭；近光灯请求熄灭却点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "当前功能负责点亮和熄灭两个required control actions，属于双向状态控制。应提供点亮或熄灭控制动作时未提供即为功能丧失。",
+      "candidate_faults": [
+        "近光灯无法点亮",
+        "近光灯无法熄灭"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量为亮度/照度，存在输出超过预期的可能性，可能使其他道路使用者眩目或误判。",
+      "candidate_faults": [
+        "近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能没有独立的自动触发时机或阶段顺序；AUTO档的自动判断属于自动灯光功能，不是当前近光灯功能本身的时序逻辑。",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量为亮度/照度，存在输出不足的可能性，可能导致驾驶员视野降低。",
+      "candidate_faults": [
+        "近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时序关系为实时响应开关信号，存在点亮或熄灭响应延迟的可能性。",
+      "candidate_faults": [
+        "近光灯点亮响应过晚",
+        "近光灯熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "相反状态为点亮-熄灭，存在没有请求或不满足条件时发生状态改变的可能性，包括非预期点亮和非预期熄灭两个方向。",
+      "candidate_faults": [
+        "近光灯非预期点亮",
+        "近光灯非预期熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "目标状态包括点亮和熄灭，存在状态保持在某一状态无法改变的可能性。",
+      "candidate_faults": [
+        "近光灯卡滞在熄灭状态",
+        "近光灯卡滞在点亮状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在相反状态点亮-熄灭，请求一个动作时可能执行相反动作。",
+      "candidate_faults": [
+        "近光灯请求点亮却熄灭",
+        "近光灯请求熄灭却点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "近光灯无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 夜间或低照度环境下驾驶员视野降低"
+    },
+    {
+      "fault": "近光灯无法熄灭",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 可能影响其他道路使用者判断或驾驶员注意力"
+    },
+    {
+      "fault": "近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes - 可能导致对向来车或前车驾驶员眩目"
+    },
+    {
+      "fault": "近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes - 驾驶员视野降低"
+    },
+    {
+      "fault": "近光灯点亮响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 低照度环境下短暂视野缺失"
+    },
+    {
+      "fault": "近光灯熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 应关闭时仍保持点亮可能影响其他道路使用者"
+    },
+    {
+      "fault": "近光灯非预期点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间可能影响其他道路使用者判断"
+    },
+    {
+      "fault": "近光灯非预期熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间或隧道内驾驶员视野突然下降"
+    },
+    {
+      "fault": "近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 夜间无法点亮导致驾驶员视野不足"
+    },
+    {
+      "fault": "近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 无法熄灭可能影响其他道路使用者"
+    },
+    {
+      "fault": "近光灯请求点亮却熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes - 夜间请求点亮却熄灭导致视野不足"
+    },
+    {
+      "fault": "近光灯请求熄灭却点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "no - 请求熄灭说明不需要近光灯，驾驶员容易发现并再次操作"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "function_behavior_model": {
+    "fault_object": "近光灯",
+    "trigger_sources": [
+      "驾驶员选择近光灯档",
+      "自动灯光逻辑判断满足点亮条件（AUTO档）"
+    ],
+    "allowed_conditions": [
+      "任意电源档位",
+      "非防盗状态下处理灯光开关变化"
+    ],
+    "actions": [
+      "输出近光灯驱动点亮",
+      "断开近光灯驱动熄灭"
+    ],
+    "target_states": [
+      "点亮状态",
+      "熄灭状态"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "点亮响应时间",
+      "熄灭响应时间",
+      "掉线5s判断时间",
+      "自复位后状态保持时间"
+    ],
+    "opposite_directions_or_states": [
+      "点亮-熄灭"
+    ],
+    "feedbacks": [
+      "美版车灯光总开关指示灯同步",
+      "近光灯故障状态报文"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "近光灯",
+    "功能丧失": "近光灯无法点亮；近光灯无法熄灭",
+    "过大": "近光灯亮度过大",
+    "过早": "",
+    "过小": "近光灯亮度过小",
+    "过晚": "近光灯点亮响应过晚；近光灯熄灭响应过晚",
+    "非预期激活": "近光灯非预期点亮；近光灯非预期熄灭",
+    "卡滞": "近光灯卡滞在熄灭状态；近光灯卡滞在点亮状态",
+    "方向错误": "近光灯请求点亮却熄灭；近光灯请求熄灭却点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "当前功能负责双向状态控制：点亮和熄灭。当请求或条件成立时，两个required control actions（点亮、熄灭）均可能缺失。",
+      "candidate_faults": [
+        "近光灯无法点亮",
+        "近光灯无法熄灭"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量包含亮度/照度，近光灯最终输出照明效果，可能超过预期亮度。",
+      "candidate_faults": [
+        "近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能不具备独立于用户请求的自动触发时机；自动灯光逻辑的上游光照传感器判断不计入本item分析。",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量包含亮度/照度，近光灯最终输出照明效果，可能低于预期亮度。",
+      "candidate_faults": [
+        "近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时间关系包含点亮响应时间和熄灭响应时间，两个动作方向均可能发生延迟。",
+      "candidate_faults": [
+        "近光灯点亮响应过晚",
+        "近光灯熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "相反方向为点亮-熄灭，双向状态控制功能可能在没有请求或不满足条件时发生状态改变。",
+      "candidate_faults": [
+        "近光灯非预期点亮",
+        "近光灯非预期熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "目标状态包含点亮和熄灭，功能状态可能保持在任一状态无法改变。",
+      "candidate_faults": [
+        "近光灯卡滞在熄灭状态",
+        "近光灯卡滞在点亮状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "存在相反动作点亮和熄灭，请求点亮可能执行熄灭，请求熄灭可能执行点亮。",
+      "candidate_faults": [
+        "近光灯请求点亮却熄灭",
+        "近光灯请求熄灭却点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "近光灯无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 夜间行驶时视野降低可能导致碰撞"
+    },
+    {
+      "fault": "近光灯无法熄灭",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 可能导致其他道路使用者眩目或误判"
+    },
+    {
+      "fault": "近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes - 可能导致对向驾驶员眩目"
+    },
+    {
+      "fault": "近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes - 驾驶员视野不足"
+    },
+    {
+      "fault": "近光灯点亮响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 进入隧道或黑暗环境时视野短暂缺失"
+    },
+    {
+      "fault": "近光灯熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "no - 安全影响相对较小"
+    },
+    {
+      "fault": "近光灯非预期点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "no - 白天点亮影响有限"
+    },
+    {
+      "fault": "近光灯非预期熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间突然熄灭导致视野丧失"
+    },
+    {
+      "fault": "近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 夜间无法点亮导致视野缺失"
+    },
+    {
+      "fault": "近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 可能导致其他道路使用者误判"
+    },
+    {
+      "fault": "近光灯请求点亮却熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes - 与非预期熄灭等效"
+    },
+    {
+      "fault": "近光灯请求熄灭却点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "no - 与非预期点亮等效"
+    }
+  ]
+}

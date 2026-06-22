@@ -1,0 +1,13 @@
+{
+  "project": {
+    "system_name": "EPB",
+    "source_file": "EPB.docx",
+    "item_definition": "",
+    "source_functions": [],
+    "assumptions": []
+  },
+  "derive_mf": [],
+  "mf_vehicle_hazards": [],
+  "HARA": [],
+  "sg_sum": []
+}

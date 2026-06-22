@@ -1,0 +1,148 @@
+{
+  "function_behavior_model": {
+    "fault_object": "EPB",
+    "trigger_sources": [
+      "驾驶员拉起EPB开关"
+    ],
+    "allowed_conditions": [
+      "车速≤3km/h",
+      "ON/OK挡位或休眠后OFF挡可唤醒",
+      "EPB处于Released状态"
+    ],
+    "actions": [
+      "执行拉起",
+      "不响应（已拉起或释放中状态时）",
+      "唤醒系统并执行拉起（休眠状态）"
+    ],
+    "target_states": [
+      "Applied（已拉起）"
+    ],
+    "physical_effects": [
+      "夹紧力/驻车制动力"
+    ],
+    "timing_relations": [
+      "拉起响应时间",
+      "释放中状态需重新操作"
+    ],
+    "opposite_directions_or_states": [
+      "拉起-释放",
+      "Applied-Released"
+    ],
+    "feedbacks": [
+      "仪表显示'电子驻车已启动'文字提示"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "MF101",
+    "子功能": "静态开关拉起",
+    "功能丧失": "EPB无法拉起",
+    "过大": "EPB拉起夹紧力过大",
+    "过早": "",
+    "过小": "EPB拉起夹紧力不足",
+    "过晚": "EPB拉起响应过晚",
+    "非预期激活": "EPB非预期拉起",
+    "卡滞": "EPB卡滞在释放状态无法拉起",
+    "方向错误": "EPB请求拉起却执行释放"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "当前功能负责的required control action是'拉起'，使EPB从Released状态转为Applied状态。该动作可能没有提供。",
+      "candidate_faults": [
+        "EPB无法拉起"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "physical_effects中包含'夹紧力/驻车制动力'这一物理作用量，存在超过预期的可能性。",
+      "candidate_faults": [
+        "EPB拉起夹紧力过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "当前功能是响应驾驶员离散开关请求，没有自动触发时机或阶段顺序。无请求前拉起属于非预期激活。",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "physical_effects中包含'夹紧力/驻车制动力'这一物理作用量，存在不足的可能性。",
+      "candidate_faults": [
+        "EPB拉起夹紧力不足"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "timing_relations中包含'拉起响应时间'，请求后可能存在响应延迟。",
+      "candidate_faults": [
+        "EPB拉起响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "功能存在状态转换（拉起），可能没有请求、不满足允许条件时发生状态改变。",
+      "candidate_faults": [
+        "EPB非预期拉起"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "功能存在状态转换，可能保持在起始状态（Released）无法转换到目标状态（Applied）。",
+      "candidate_faults": [
+        "EPB卡滞在释放状态无法拉起"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "opposite_directions_or_states中包含'拉起-释放'，请求拉起时可能执行相反动作释放。",
+      "candidate_faults": [
+        "EPB请求拉起却执行释放"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "MF101 EPB无法拉起",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 可能导致车辆在坡道或非理想路况下发生非预期移动"
+    },
+    {
+      "fault": "MF102 EPB拉起夹紧力过大",
+      "guideword": "过大",
+      "safety_relevance": "no - 静态拉起场景中主要影响制动器和机构寿命，不会导致非预期减速"
+    },
+    {
+      "fault": "MF103 EPB拉起夹紧力不足",
+      "guideword": "过小",
+      "safety_relevance": "yes - 可能导致驻车制动力不足，车辆在坡道或外力作用下发生非预期移动"
+    },
+    {
+      "fault": "MF104 EPB拉起响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 坡道场景下延迟建立制动力可能导致非预期移动"
+    },
+    {
+      "fault": "MF105 EPB非预期拉起",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 行驶或低速时可能引起非预期减速，导致后车追尾或失去控制"
+    },
+    {
+      "fault": "MF106 EPB卡滞在释放状态无法拉起",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 等效于无法拉起，可能导致车辆非预期移动"
+    },
+    {
+      "fault": "MF107 EPB请求拉起却执行释放",
+      "guideword": "方向错误",
+      "safety_relevance": "yes - 驻车意图时反而释放制动，直接导致车辆非预期移动"
+    }
+  ]
+}

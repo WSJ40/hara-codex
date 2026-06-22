@@ -1,0 +1,30 @@
+Looking at this HARA review prompt for a low beam headlight malfunction scenario, I need to audit whether the SEC (Severity/Exposure/Controllability) assessment is properly grounded in the scenario facts.
+
+**Audit Summary:**
+
+- **E4 (Exposure)**: The explanation correctly cites "城市快速路日间直道前向匀速行驶" as a high-frequency scenario. This uses the actual scenario fields (道路类型, 环境条件, 道路条件, 车辆状态) and estimates >40 hours/year appropriately.
+
+- **S0 (Severity)**: The explanation correctly leverages the 附加条件 "环境光照强度远大于近光灯亮度" to conclude no injury risk. It states this is a regulatory compliance issue, not a personal injury event.
+
+- **C0 (Controllability)**: The explanation uses the same 附加条件 to show minimal impact on other drivers, and explains why no special action is needed.
+
+The assessment properly:
+- Uses only facts present in the scenario (no added facts)
+- Does not use template language
+- Acknowledges the weak physical mechanism (ambient light >> low beam intensity)
+- Does not inflate the hazard event
+
+```json
+{
+  "approved": true,
+  "issues": [],
+  "final_sec": {
+    "E-解释": "城市快速路日间直道前向匀速行驶是常见操作场景，属于日常驾驶的高频场景，暴露频率大于40小时/年",
+    "暴露频率'E'": "E4",
+    "可能的后果('S'的理由)": "场景明确说明环境光照强度远大于近光灯亮度，其他道路使用者几乎无法察觉或受到近光灯影响，对其他道路使用者的判断影响极小。白天正常天气下，近光灯卡滞点亮不会造成眩目或误判，不会导致其他车辆驾驶员误判本车位置或意图而发生碰撞，仅属于违反法规但不构成人身伤害风险",
+    "Severity 'S'": "S0",
+    "C-解释": "场景附加条件明确其他道路使用者几乎无法察觉近光灯点亮，说明对其他驾驶员的影响微乎其微。即使其他驾驶员注意到本车近光灯在白天点亮，由于其亮度远低于环境光，不会导致眩目或距离误判，其他驾驶员可通过常规驾驶行为轻松应对，无需特殊操作",
+    "控制能力 'C'": "C0"
+  }
+}
+```

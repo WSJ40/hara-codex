@@ -1,0 +1,175 @@
+```json
+{
+  "function_behavior_model": {
+    "trigger_sources": [
+      "驾驶员通过组合开关切换至近光灯档（0x133报文0x4）",
+      "AUTO档时自动灯光逻辑判断近光灯点亮/熄灭"
+    ],
+    "allowed_conditions": [
+      "任意电源档位",
+      "非防盗设定/防盗状态"
+    ],
+    "actions": [
+      "点亮：输出近光灯驱动，发送点亮报文",
+      "熄灭：断开近光灯驱动，发送熄灭报文"
+    ],
+    "target_states": [
+      "点亮状态",
+      "熄灭状态"
+    ],
+    "physical_effects": [
+      "亮度/照度"
+    ],
+    "timing_relations": [
+      "点亮响应时间",
+      "熄灭响应时间",
+      "掉线5s判断及状态保持",
+      "自复位时状态保持"
+    ],
+    "opposite_directions_or_states": [
+      "点亮-熄灭"
+    ],
+    "feedbacks": [
+      "美版：仪表灯光总开关指示灯",
+      "近光灯故障状态报文"
+    ]
+  },
+  "derive_mf_row": {
+    "No.": "LIGHT_fc01",
+    "子功能": "近光灯",
+    "功能丧失": "MF101 应点亮时无法点亮",
+    "过大": "MF201 近光灯亮度过大",
+    "过早": "",
+    "过小": "MF202 近光灯亮度过小",
+    "过晚": "MF301 点亮响应过晚；MF302 熄灭响应过晚",
+    "非预期激活": "MF401 近光灯未请求时意外点亮；MF402 近光灯未请求时意外熄灭",
+    "卡滞": "MF501 近光灯卡滞在点亮状态；MF502 近光灯卡滞在熄灭状态",
+    "方向错误": "MF601 请求点亮却执行熄灭；MF602 请求熄灭却执行点亮"
+  },
+  "guideword_decisions": [
+    {
+      "guideword": "功能丧失",
+      "exists": "yes",
+      "basis_in_behavior_model": "触发源（驾驶员/自动）请求点亮时，执行动作（输出驱动点亮）完全失败，目标状态（点亮状态）无法建立",
+      "candidate_faults": [
+        "MF101 应点亮时无法点亮"
+      ]
+    },
+    {
+      "guideword": "过大",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量（亮度/照度）存在，点亮时输出强度超过预期",
+      "candidate_faults": [
+        "MF201 近光灯亮度过大"
+      ]
+    },
+    {
+      "guideword": "过早",
+      "exists": "no",
+      "basis_in_behavior_model": "近光灯本身没有自动触发时机；AUTO档自动判断由自动灯光逻辑控制，不属于当前近光灯功能",
+      "candidate_faults": []
+    },
+    {
+      "guideword": "过小",
+      "exists": "yes",
+      "basis_in_behavior_model": "物理作用量（亮度/照度）存在，点亮时输出强度低于预期",
+      "candidate_faults": [
+        "MF202 近光灯亮度过小"
+      ]
+    },
+    {
+      "guideword": "过晚",
+      "exists": "yes",
+      "basis_in_behavior_model": "时间关系（点亮/熄灭响应时间）存在，请求/条件成立后状态建立延迟",
+      "candidate_faults": [
+        "MF301 点亮响应过晚",
+        "MF302 熄灭响应过晚"
+      ]
+    },
+    {
+      "guideword": "非预期激活",
+      "exists": "yes",
+      "basis_in_behavior_model": "方向/极性（点亮-熄灭）存在，无请求时状态发生改变：未请求时意外点亮或意外熄灭",
+      "candidate_faults": [
+        "MF401 近光灯未请求时意外点亮",
+        "MF402 近光灯未请求时意外熄灭"
+      ]
+    },
+    {
+      "guideword": "卡滞",
+      "exists": "yes",
+      "basis_in_behavior_model": "方向/极性（点亮-熄灭）存在，状态保持无法按请求改变：卡滞在点亮状态或熄灭状态",
+      "candidate_faults": [
+        "MF501 近光灯卡滞在点亮状态",
+        "MF502 近光灯卡滞在熄灭状态"
+      ]
+    },
+    {
+      "guideword": "方向错误",
+      "exists": "yes",
+      "basis_in_behavior_model": "方向/极性（点亮-熄灭）存在，请求与执行相反：请求点亮却执行熄灭，或请求熄灭却执行点亮",
+      "candidate_faults": [
+        "MF601 请求点亮却执行熄灭",
+        "MF602 请求熄灭却执行点亮"
+      ]
+    }
+  ],
+  "split_faults": [
+    {
+      "fault": "MF101 应点亮时无法点亮",
+      "guideword": "功能丧失",
+      "safety_relevance": "yes - 夜间行车时近光灯失效导致驾驶员视野不足"
+    },
+    {
+      "fault": "MF201 近光灯亮度过大",
+      "guideword": "过大",
+      "safety_relevance": "yes - 可能造成对向驾驶员眩目"
+    },
+    {
+      "fault": "MF202 近光灯亮度过小",
+      "guideword": "过小",
+      "safety_relevance": "yes - 导致驾驶员视野不足"
+    },
+    {
+      "fault": "MF301 点亮响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "yes - 短时间内视野不足"
+    },
+    {
+      "fault": "MF302 熄灭响应过晚",
+      "guideword": "过晚",
+      "safety_relevance": "no - 熄灭延迟通常不产生安全影响"
+    },
+    {
+      "fault": "MF401 近光灯未请求时意外点亮",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 可能引起其他道路使用者误判"
+    },
+    {
+      "fault": "MF402 近光灯未请求时意外熄灭",
+      "guideword": "非预期激活",
+      "safety_relevance": "yes - 夜间行车时视野突然降低"
+    },
+    {
+      "fault": "MF501 近光灯卡滞在点亮状态",
+      "guideword": "卡滞",
+      "safety_relevance": "no - 无法熄灭通常不产生安全影响"
+    },
+    {
+      "fault": "MF502 近光灯卡滞在熄灭状态",
+      "guideword": "卡滞",
+      "safety_relevance": "yes - 夜间行车时无法点亮导致视野不足"
+    },
+    {
+      "fault": "MF601 请求点亮却执行熄灭",
+      "guideword": "方向错误",
+      "safety_relevance": "yes - 夜间行车时视野降低"
+    },
+    {
+      "fault": "MF602 请求熄灭却执行点亮",
+      "guideword": "方向错误",
+      "safety_relevance": "no - 点亮通常不产生安全影响"
+    }
+  ]
+}
+```
